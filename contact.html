@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Personal Web</title>
+</head>
+
+<body>
+    <!-- Membuat Navbar -->
+    <div>
+        <nav>
+            <ul style="
+            background-color: #f4f3f3;
+            list-style-type: none;
+            display: flex;
+            gap: 30px;
+            padding: 10px;
+            padding-left: 100px;
+            align-items: center;
+          ">
+                <li>
+                    <img src="asset/dumbways.png" style="height: 70px" />
+                </li>
+                <li>
+                    <a href="index.html"> Home </a>
+                </li>
+                <li>
+                    <a href="blog.html"> Blog </a>
+                </li>
+                <li style="display: flex; justify-content: flex-end; width: 80%">
+                    <a href="contact.html" class="btn-orange">Contact Me</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Navbar Selesai -->
+    <!-- Membuat Konten -->
+    <h1>GET IN TOUCH</h1>
+    <div class="container-contact">
+        <form onsubmit="sendToMail(event)" style="
+          display: flex;
+
+          flex-direction: column;
+          gap: 20px;
+          width: 100%;
+        ">
+            <div>
+                <label>Name</label>
+                <input id="input-name" />
+            </div>
+            <div>
+                <label>Email</label>
+                <input id="input-email" />
+            </div>
+            <div>
+                <label>Phone Number</label>
+                <input id="input-phone" />
+            </div>
+            <div>
+                <label>Subject</label>
+                <select id="input-subject">
+            <option value="Fullstack Developer">Fullstack Developer</option>
+            <option value="Frontend Developer">Frontend Developer</option>
+            <option value="Backend Developer">Backend Developer</option>
+          </select>
+            </div>
+            <div>
+                <label>Your message</label>
+                <textarea id="input-message"></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end">
+                <button class="btn-orange" style="width: 40%">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script src="asset/js/contact.js"></script>
+</body>
+
+</html>
