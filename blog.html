@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="blog.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Membuat Navbar -->
+    <div>
+        <nav>
+            <ul style="
+            background-color: #f4f3f3;
+            list-style-type: none;
+            display: flex;
+            gap: 30px;
+            padding: 10px;
+            padding-left: 100px;
+            align-items: center;
+          ">
+                <li>
+                    <img src="asset/dumbways.png" style="height: 70px" />
+                </li>
+                <li>
+                    <a href="index.html"> Home </a>
+                </li>
+                <li>
+                    <a href="blog.html"> Blog </a>
+                </li>
+                <li style="display: flex; justify-content: flex-end; width: 80%">
+                    <a href="contact.html" class="btn-orange">Contact Me</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Navbar Selesai -->
+
+    <!-- Membuat Konten Submit Article -->
+    <div class="container-blog">
+        <div class="container-blog-top">
+            <div class="form-container">
+                <form onsubmit="addBlog(event)">
+                    <h1>Add My Article</h1>
+                    <div class="form-input">
+                        <label for="">Article</label>
+                        <input type="text" id="input-blog-title" style="
+                  box-shadow: 1px 2px 2px 1px rgb(0, 0, 0, 0.5);
+                  border-radius: 10px;
+                " />
+                        <br />
+                        <div class="date-blog">
+                            <div class="date-start">
+                                <label for="">Start Date</label>
+                                <input type="date" id="input-start-date" style="
+                      box-shadow: 1px 2px 2px 1px rgb(0, 0, 0, 0.5);
+                      border-radius: 10px;
+                    " />
+                            </div>
+                            <div class="date-end">
+                                <label for="">End Date</label>
+                                <input type="date" id="input-end-date" style="
+                      box-shadow: 1px 2px 2px 1px rgb(0, 0, 0, 0.5);
+                      border-radius: 10px;
+                    " />
+                            </div>
+                        </div>
+                        <br />
+                        <label for="">Description</label>
+                        <textarea name="" id="input-blog-content" style="
+                  box-shadow: 1px 2px 2px 1px rgb(0, 0, 0, 0.5);
+                  border-radius: 10px;
+                "></textarea>
+                        <!-- <div class="blog-filter">
+                            <label for="">Filter :</label>
+                            <div class="blog-radio">
+                                <input name="filter" type="checkbox" id="Technology" />
+                                <label for="filter">Technology</label>
+                                <input name="filter" type="checkbox" id="Sport" />
+                                <label for="filter">Sport</label>
+                                <input name="filter" type="checkbox" id="Travel" />
+                                <label for="filter">Travel</label>
+                            </div>
+                        </div> -->
+                        <div class="blog-filter">
+                            <label for="">Pilih Kategori:</label>
+                            <div class="blog-radio">
+                                <input name="filter" type="checkbox" id="Technology" value="Technology" />
+                                <label for="Technology">Technology</label>
+
+                                <input name="filter" type="checkbox" id="Sport" value="Sport" />
+                                <label for="Sport">Sport</label>
+
+                                <input name="filter" type="checkbox" id="Travel" value="Travel" />
+                                <label for="Travel">Travel</label>
+                            </div>
+                        </div>
+                        <div class="label-img">
+                            <label>Upload Image</label>
+                            <div class="input-blog-image-group">
+                                <label for="input-blog-image">
+                    <p>Attach File</p>
+                    <img src="asset/icon/file.png" alt="file" />
+                  </label>
+                                <input type="file" id="input-blog-image" hidden />
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                            <button id="submit" class="btn">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Selesai Membuat Submit Article -->
+        <!-- Membuat Konten Blog -->
+        <div class="container-blog-bottom">
+            <hr class="line" />
+            <div id="contents" class="card-container">
+                <!-- <div class="card">
+                    <img src="${blogs[i].image}" alt="image" />
+                    <div class="card-content">
+                        <h3>
+                            <a href="blog-detail.html" target="_blank">${blogs[i].title}</a>
+                        </h3>
+                        <div class="detail-blog-content">
+                            ${blogs[i].createDate} | Rizki Rahmadani
+                        </div>
+                        <p>${blogs[i].content}</p>
+                        <div class="card-btn"></div>
+                        <a href="" class="btn-blog">Edit</a>
+                        <a href="" class="btn-blog" onclick="deleteBlog(${i})">Delete</a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Konten Blog Selesai -->
+
+    <script src="asset/js/blog.js"></script>
+</body>
+
+</html>

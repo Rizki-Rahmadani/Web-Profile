@@ -69,8 +69,6 @@ h1 {
     padding-right: 100px;
     border-radius: 10px;
     box-shadow: 5px 10px 8px 5px rgb(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
     gap: 30px;
 }
 
