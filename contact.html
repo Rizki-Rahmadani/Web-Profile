@@ -5,6 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="contact.css" />
+    <link rel="stylesheet" href="hamburger.css" />
+
     <title>Personal Web</title>
 </head>
 
@@ -12,41 +15,42 @@
     <!-- Membuat Navbar -->
     <div>
         <nav>
-            <ul style="
-            background-color: #f4f3f3;
-            list-style-type: none;
-            display: flex;
-            gap: 30px;
-            padding: 10px;
-            padding-left: 100px;
-            align-items: center;
-          ">
+            <ul class="ul-container">
                 <li>
                     <img src="asset/dumbways.png" style="height: 70px" />
                 </li>
                 <li>
-                    <a href="index.html"> Home </a>
+                    <a href="index.html" class="nav-hide"> Home </a>
                 </li>
                 <li>
-                    <a href="blog.html"> Blog </a>
+                    <a href="blog.html" class="nav-hide"> Blog </a>
                 </li>
-                <li style="display: flex; justify-content: flex-end; width: 80%">
-                    <a href="contact.html" class="btn-orange">Contact Me</a>
+                <li class="li-button">
+                    <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
+                    <button onclick="hamburgerToggle()" class="hamburger-button">
+                        <i class="fa-solid fa-bars"></i>
+                      </button>
                 </li>
             </ul>
         </nav>
+    </div>
+    <div id="hamburger-container" class="hamburger-container hide">
+        <h1 class="hamburger-container-item">
+            <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
+        </h1>
+        <h1 class="hamburger-container-item">
+            <a style="color: black" href="blog.html"> Blog </a>
+        </h1>
+        <h1 class="hamburger-container-item hamburger-active">
+            <a style="color: black" href="contact.html"> Contact Me </a>
+        </h1>
+    </div>
     </div>
     <!-- Navbar Selesai -->
     <!-- Membuat Konten -->
     <h1>GET IN TOUCH</h1>
     <div class="container-contact">
-        <form onsubmit="sendToMail(event)" style="
-          display: flex;
-
-          flex-direction: column;
-          gap: 20px;
-          width: 100%;
-        ">
+        <form onsubmit="sendToMail(event)" class="contact-form">
             <div>
                 <label>Name</label>
                 <input id="input-name" />
@@ -72,11 +76,12 @@
                 <textarea id="input-message"></textarea>
             </div>
             <div style="display: flex; justify-content: flex-end">
-                <button class="btn-orange" style="width: 40%">Submit</button>
+                <button class="btn-orange" style="width: 50%">Submit</button>
             </div>
         </form>
     </div>
     <script src="asset/js/contact.js"></script>
+    <script src="asset/js/hamburger.js"></script>
 </body>
 
 </html>
