@@ -1,0 +1,44 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+.hamburger-container {
+  background-color: #f4f3f3;
+}
+
+.hamburger-container-item {
+  width: 100%;
+}
+
+.hamburger-active {
+  background-color: crimson;
+}
+
+.hide {
+  display: none;
+}
+
+.hamburger-button {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  .nav-link {
+    display: none;
+  }
+  .hamburger-button {
+    width: 25%;
+    display: block;
+  }
+  .li-button {
+    padding-right: 60px;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .hamburger-button {
+    width: 20%;
+    height: auto;
+    display: block;
+  }
+  .li-button {
+    padding-right: 20px;
+  }
+}

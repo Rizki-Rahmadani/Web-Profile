@@ -1,98 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="hamburger.css" />
+    <link rel="stylesheet" href="asset/css/style.css" />
+    <link rel="stylesheet" href="asset/css/hamburger.css" />
     <title>Personal Web</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- Membuat Navbar -->
     <div>
-      <nav>
-        <ul class="ul-container">
-          <li>
-            <img src="asset/dumbways.png" style="height: 70px" />
-          </li>
-          <li>
-            <a href="index.html" class="nav-hide"> Home </a>
-          </li>
-          <li>
-            <a href="blog.html" class="nav-hide"> Blog </a>
-          </li>
-          <li class="li-button">
-            <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
-            <button onclick="hamburgerToggle()" class="hamburger-button">
+        <nav>
+            <ul class="ul-container">
+                <li>
+                    <img src="asset/dumbways.png" style="height: 70px" />
+                </li>
+                <li>
+                    <a href="index.html" class="nav-hide"> Home </a>
+                </li>
+                <li>
+                    <a href="blog.html" class="nav-hide"> Blog </a>
+                </li>
+                <li>
+                    <a href="testimonial.html" class="nav-hide"> Testimonial </a>
+                </li>
+                <li class="li-button">
+                    <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
+                    <button onclick="hamburgerToggle()" class="hamburger-button">
               <i class="fa-solid fa-bars"></i>
             </button>
-          </li>
-        </ul>
-      </nav>
-      <div id="hamburger-container" class="hamburger-container hide">
-        <h1 class="hamburger-container-item hamburger-active">
-          <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
-        </h1>
-        <h1 class="hamburger-container-item">
-          <a style="color: black" href="blog.html"> Blog </a>
-        </h1>
-        <h1 class="hamburger-container-item">
-          <a style="color: black" href="contact.html"> Contact Me </a>
-        </h1>
-      </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="hamburger-container" class="hamburger-container hide">
+            <h1 class="hamburger-container-item hamburger-active">
+                <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
+            </h1>
+            <h1 class="hamburger-container-item">
+                <a style="color: black" href="blog.html"> Blog </a>
+            </h1>
+            <h1 class="hamburger-container-item">
+                <a style="color: black" href="contact.html"> Contact Me </a>
+            </h1>
+        </div>
     </div>
     <!-- Navbar Selesai -->
     <!-- Membuat Konten -->
     <div class="container">
-      <div class="left-container">
-        <h1>Hi, Welcome to my hut</h1>
-        <p style="text-align: justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi
-          ullam quasi soluta architecto voluptatibus eligendi quos, ipsa
-          obcaecati dignissimos asperiores iste voluptatum fuga ipsam eum cumque
-          esse iure perspiciatis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. At sint cupiditate vitae iste laboriosam labore cum
-          nesciunt numquam iure odit quaerat eius deserunt consectetur,
-          quisquam, maxime explicabo dolorum ipsam commodi.
-        </p>
-        <div
-          style="display: flex; align-items: center; justify-content: center"
-        >
-          <a href="contact.html" class="action-btn">contact</a>
-          <a
-            href=""
-            style="
+        <div class="left-container">
+            <h1>Hi, Welcome to my hut</h1>
+            <p style="text-align: justify">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi ullam quasi soluta architecto voluptatibus eligendi quos, ipsa obcaecati dignissimos asperiores iste voluptatum fuga ipsam eum cumque esse iure perspiciatis. Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. At sint cupiditate vitae iste laboriosam labore cum nesciunt numquam iure odit quaerat eius deserunt consectetur, quisquam, maxime explicabo dolorum ipsam commodi.
+            </p>
+            <div style="display: flex; align-items: center; justify-content: center">
+                <a href="contact.html" class="action-btn">contact</a>
+                <a href="" style="
               font-size: large;
               display: inline-block;
               text-decoration: none;
               padding: 0.5em 1em;
               color: #000;
-            "
-            >Download CV <img src="asset/downloads.png" width="5%"
+            ">Download CV <img src="asset/downloads.png" width="5%"
           /></a>
+            </div>
+            <div class="social">
+                <a href=""><img src="asset/linkedin.png" alt="Linkedin" /></a>
+                <a href="https://www.instagram.com/____rizki._/"><img src="asset/instagram.png" alt="Instagram" /></a>
+                <a href=""><img src="asset/facebook.png" alt="Facebook" /></a>
+                <a href="https://x.com/Unluck_ki/"><img src="asset/twitter.png" alt="Twitter" /></a>
+            </div>
         </div>
-        <div class="social">
-          <a href=""><img src="asset/linkedin.png" alt="Linkedin" /></a>
-          <a href="https://www.instagram.com/____rizki._/"
-            ><img src="asset/instagram.png" alt="Instagram"
-          /></a>
-          <a href=""><img src="asset/facebook.png" alt="Facebook" /></a>
-          <a href="https://x.com/Unluck_ki/"
-            ><img src="asset/twitter.png" alt="Twitter"
-          /></a>
+        <div class="right-container">
+            <div class="card-container">
+                <img src="asset/1728830355452.png" />
+                <h1 style="text-align: center">Rizki Rahmadani</h1>
+                <p style="text-align: center; padding: 0 0 2em">
+                    Fullstack Developer
+                </p>
+            </div>
         </div>
-      </div>
-      <div class="right-container">
-        <div class="card-container">
-          <img src="asset/1728830355452.png" />
-          <h1 style="text-align: center">Rizki Rahmadani</h1>
-          <p style="text-align: center; padding: 0 0 2em">
-            Fullstack Developer
-          </p>
-        </div>
-      </div>
     </div>
     <script src="asset/js/hamburger.js"></script>
-  </body>
+</body>
+
 </html>

@@ -1,0 +1,51 @@
+.container-contact {
+    width: 25%;
+    margin: 3em auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 5px 10px 8px 5px rgb(0, 0, 0, 0.2);
+    gap: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 70%;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container-contact {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .container-contact {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .container-contact {
+        width: 80%;
+    }
+    .contact-form {
+        width: 100%;
+    }
+}
