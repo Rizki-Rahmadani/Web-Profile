@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Testimonial</title>
     <link rel="stylesheet" href="asset/css/style.css" />
     <link rel="stylesheet" href="asset/css/hamburger.css" />
     <link rel="stylesheet" href="asset/css/testimonial.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
 
-<body>
+  <body>
     <div>
-        <nav>
-            <ul class="ul-container">
-                <li>
-                    <img src="asset/dumbways.png" style="height: 70px" />
-                </li>
-                <li>
-                    <a href="index.html" class="nav-hide"> Home </a>
-                </li>
-                <li>
-                    <a href="blog.html" class="nav-hide"> Blog </a>
-                </li>
-                <li>
-                    <a href="testimonial.html" class="nav-hide"> Testimonial </a>
-                </li>
-                <li class="li-button">
-                    <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
-                    <button onclick="hamburgerToggle()" class="hamburger-button">
+      <nav>
+        <ul class="ul-container">
+          <li>
+            <img src="asset/dumbways.png" style="height: 70px" />
+          </li>
+          <li>
+            <a href="index.html" class="nav-hide"> Home </a>
+          </li>
+          <li>
+            <a href="blog.html" class="nav-hide"> Blog </a>
+          </li>
+          <li>
+            <a href="testimonial.html" class="nav-hide"> Testimonial </a>
+          </li>
+          <li class="li-button">
+            <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
+            <button onclick="hamburgerToggle()" class="hamburger-button">
               <i class="fa-solid fa-bars"></i>
             </button>
-                </li>
-            </ul>
-        </nav>
-        <div id="hamburger-container" class="hamburger-container hide">
-            <h1 class="hamburger-container-item hamburger-active">
-                <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
-            </h1>
-            <h1 class="hamburger-container-item">
-                <a style="color: black" href="blog.html"> Blog </a>
-            </h1>
-            <h1 class="hamburger-container-item">
-                <a style="color: black" href="contact.html"> Contact Me </a>
-            </h1>
-        </div>
+          </li>
+        </ul>
+      </nav>
+      <div id="hamburger-container" class="hamburger-container hide">
+        <h1 class="hamburger-container-item hamburger-active">
+          <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
+        </h1>
+        <h1 class="hamburger-container-item">
+          <a style="color: black" href="blog.html"> Blog </a>
+        </h1>
+        <h1 class="hamburger-container-item">
+          <a style="color: black" href="contact.html"> Contact Me </a>
+        </h1>
+      </div>
     </div>
 
     <div class="hamburger-container hide">
-        <a href="index.html" class="hamburger-nav-link"> Home </a>
-        <a href="blog.html" class="hamburger-nav-link hamburger-active"> Blog </a>
-        <a href="contact.html" class="hamburger-nav-link"> Contact </a>
+      <a href="index.html" class="hamburger-nav-link"> Home </a>
+      <a href="blog.html" class="hamburger-nav-link hamburger-active"> Blog </a>
+      <a href="contact.html" class="hamburger-nav-link"> Contact </a>
     </div>
 
     <!-- Membuat Konten Kanan dan Kiri -->
     <div class="container-testimonial">
-        <!-- <div class="testimonial-left">
+      <!-- <div class="testimonial-left">
             <div class="wrap-testimonial">
                 <div class="container-testimonial-rating">
                     <h1>Please provide feedback</h1>
@@ -107,35 +109,60 @@
                 </div>
             </div>
         </div> -->
-        <div class="testimonial-right">
-            <div class="container-testimonial-rating">
-                <h1>My Testimonials</h1>
-                <div class="container-rating">
-                    <h2>Rating By Star</h2>
-                    <div class="rating">
-                        <button class="rating-btn">All</button>
-                        <button class="rating-btn">
+      <div class="testimonial-right">
+        <div class="container-testimonial-rating">
+          <h1>My Testimonials</h1>
+          <div class="container-rating">
+            <h2>Rating By Star</h2>
+            <div class="rating">
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getAllRating()"
+              >
+                All
+              </button>
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getRatingByStar(1)"
+              >
                 1 <i class="fa-solid fa-star"></i>
               </button>
-                        <button class="rating-btn">
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getRatingByStar(2)"
+              >
                 2 <i class="fa-solid fa-star"></i>
               </button>
-                        <button class="rating-btn">
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getRatingByStar(3)"
+              >
                 3 <i class="fa-solid fa-star"></i>
               </button>
-                        <button class="rating-btn">
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getRatingByStar(4)"
+              >
                 4 <i class="fa-solid fa-star"></i>
               </button>
-                        <button class="rating-btn">
+              <button
+                class="btn"
+                ondblclick="changeColor(this)"
+                onclick="getRatingByStar(5)"
+              >
                 5 <i class="fa-solid fa-star"></i>
               </button>
-                    </div>
-                </div>
             </div>
-            <section class="testimonials" id="testimonials"></section>
+          </div>
         </div>
+        <section class="testimonials" id="testimonials"></section>
+      </div>
     </div>
     <script src="asset/js/testimonial.js"></script>
-</body>
-
+  </body>
 </html>
