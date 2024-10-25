@@ -1,89 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: rgb(224, 224, 224);
+      }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="asset/css/style.css" />
-    <link rel="stylesheet" href="asset/css/hamburger.css" />
-    <title>Personal Web</title>
-</head>
+      .active {
+        color: orangered !important;
+      }
 
-<body>
-    <!-- Membuat Navbar -->
-    <div>
-        <nav>
-            <ul class="ul-container">
-                <li>
-                    <img src="asset/dumbways.png" style="height: 70px" />
-                </li>
-                <li>
-                    <a href="index.html" class="nav-hide"> Home </a>
-                </li>
-                <li>
-                    <a href="blog.html" class="nav-hide"> Blog </a>
-                </li>
-                <li>
-                    <a href="testimonial.html" class="nav-hide"> Testimonial </a>
-                </li>
-                <li class="li-button">
-                    <a href="contact.html" class="btn-orange nav-hide">Contact Me</a>
-                    <button onclick="hamburgerToggle()" class="hamburger-button">
-              <i class="fa-solid fa-bars"></i>
-            </button>
-                </li>
-            </ul>
-        </nav>
-        <div id="hamburger-container" class="hamburger-container hide">
-            <h1 class="hamburger-container-item hamburger-active">
-                <a style="color: rgb(0, 0, 0)" href="index.html"> Home </a>
-            </h1>
-            <h1 class="hamburger-container-item">
-                <a style="color: black" href="blog.html"> Blog </a>
-            </h1>
-            <h1 class="hamburger-container-item">
-                <a style="color: black" href="contact.html"> Contact Me </a>
-            </h1>
+      .social {
+        width: 40px;
+      }
+
+      .btn-contact {
+        background-color: orangered !important;
+      }
+
+      .gap {
+        gap: 20px;
+      }
+
+      .image {
+        background-color: antiquewhite;
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        margin: auto;
+      }
+
+      .btn-card {
+        color: white;
+        background-color: rgb(28, 28, 78) !important;
+      }
+
+      .btn-card:hover {
+        color: orangered;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary px-5">
+      <div class="container-fluid">
+        <img src="asset/img/dumbways.png" style="height: 60px" />
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Blog.html">Blog</a>
+            </li>
+          </ul>
+          <a href="contact.html" class="btn btn-contact">Contact</a>
         </div>
-    </div>
-    <!-- Navbar Selesai -->
-    <!-- Membuat Konten -->
+      </div>
+    </nav>
+    <!-- Navbar -->
+    <!-- Konten Atas -->
     <div class="container">
-        <div class="left-container">
+      <div class="container-md text-center">
+        <div
+          class="row shadow p-3 mb-5 bg-body-tertiary rounded my-5"
+          style="gap: 10px"
+        >
+          <div class="col">
             <h1>Hi, Welcome to my hut</h1>
             <p style="text-align: justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi ullam quasi soluta architecto voluptatibus eligendi quos, ipsa obcaecati dignissimos asperiores iste voluptatum fuga ipsam eum cumque esse iure perspiciatis. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. At sint cupiditate vitae iste laboriosam labore cum nesciunt numquam iure odit quaerat eius deserunt consectetur, quisquam, maxime explicabo dolorum ipsam commodi.
+              Column Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Voluptatum ratione recusandae atque possimus accusamus unde
+              consectetur deleniti suscipit dicta! Natus neque consectetur modi
+              delectus qui, eos est eaque. Ab, unde?. Lorem ipsum dolor sit,
+              amet consectetur adipisicing elit. Id illum molestiae laboriosam
+              quo quod, exercitationem ab velit dolore! Porro cum recusandae
+              ipsam. Praesentium, nostrum sunt? Reiciendis neque explicabo sint
+              velit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Laboriosam harum sint hic cupiditate porro exercitationem
+              distinctio, iste quisquam nihil dolore alias id? Facilis dolor
+              ullam pariatur. Iure sapiente officiis labore.
             </p>
-            <div style="display: flex; align-items: center; justify-content: center">
-                <a href="contact.html" class="action-btn">contact</a>
-                <a href="" style="
-              font-size: large;
-              display: inline-block;
-              text-decoration: none;
-              padding: 0.5em 1em;
-              color: #000;
-            ">Download CV <img src="asset/downloads.png" width="5%"
-          /></a>
+            <div class="d-flex flex-row mb-3 d-flex align-items-center">
+              <button type="button" class="btn btn-contact">Contact</button>
+              <a href="" style="color: black; text-decoration: none"
+                >Download CV
+                <img src="asset/img/downloads.png" style="height: 20px"
+              /></a>
             </div>
-            <div class="social">
-                <a href=""><img src="asset/linkedin.png" alt="Linkedin" /></a>
-                <a href="https://www.instagram.com/____rizki._/"><img src="asset/instagram.png" alt="Instagram" /></a>
-                <a href=""><img src="asset/facebook.png" alt="Facebook" /></a>
-                <a href="https://x.com/Unluck_ki/"><img src="asset/twitter.png" alt="Twitter" /></a>
+            <div class="d-flex justify-content-center" style="gap: 10px">
+              <a href=""
+                ><img src="asset/img/facebook.png" class="social" alt=""
+              /></a>
+              <a href=""
+                ><img src="asset/img/linkedin.png" class="social" alt=""
+              /></a>
+              <a href=""
+                ><img src="asset/img/instagram.png" class="social" alt=""
+              /></a>
+              <a href=""
+                ><img src="asset/img/twitter.png" class="social" alt=""
+              /></a>
             </div>
+          </div>
+          <div class="col d-flex justify-content-center">
+            <div class="card" style="width: 20rem">
+              <img src="asset/img/1728830355452.png" class="card-img-top" />
+              <div class="card-body">
+                <h2>Rizki Rahmadani</h2>
+                <p class="card-text">Fullstack Developer</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="right-container">
-            <div class="card-container">
-                <img src="asset/1728830355452.png" />
-                <h1 style="text-align: center">Rizki Rahmadani</h1>
-                <p style="text-align: center; padding: 0 0 2em">
-                    Fullstack Developer
-                </p>
-            </div>
-        </div>
+      </div>
     </div>
-    <script src="asset/js/hamburger.js"></script>
-</body>
+    <!-- Konten Atas -->
 
+    <!-- Konten Bawah -->
+    <div class="container-fluid p-3 mb-2 bg-white text-dark">
+      <h2 class="text-center">My Project</h2>
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-center gap">
+          <div class="card" style="width: 18rem">
+            <img src="asset/img/Antony.png" class="image" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">El-Gasing</h5>
+              <p>1 Month 3 Days | Rizki Rahmadani</p>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <div class="d-flex justify-content-start py-1">
+                <img src="asset/icon/html.png" class="social" alt="" />
+                <img src="asset/icon/typescript.png" class="social" alt="" />
+                <img src="asset/icon/js.png" class="social" alt="" />
+              </div>
+              <a href="#" class="btn btn-card">Edit</a>
+              <a href="#" class="btn btn-card">Delete</a>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem">
+            <img
+              src="asset/img/onana.png"
+              class="card-img-top image"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">Onana</h5>
+              <p>1 Month 3 Days | Rizki Rahmadani</p>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <div class="d-flex justify-content-start py-1">
+                <img src="asset/icon/js.png" class="social" alt="" />
+                <img src="asset/icon/react-js.png" class="social" alt="" />
+                <img src="asset/icon/typescript.png" class="social" alt="" />
+              </div>
+              <a href="#" class="btn btn-card">Edit</a>
+              <a href="#" class="btn btn-card">Delete</a>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem">
+            <img src="asset/img/maguire-.jpg" class="image" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">Meguire</h5>
+              <p>1 Month 3 Days | Rizki Rahmadani</p>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <div class="d-flex justify-content-start py-1">
+                <img src="asset/icon/react-js.png" class="social" alt="" />
+                <img src="asset/icon/js.png" class="social" alt="" />
+              </div>
+              <a href="#" class="btn btn-card">Edit</a>
+              <a href="#" class="btn btn-card">Delete</a>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem">
+            <img src="asset/img/ten-hag.jfif" class="image" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">TenHag</h5>
+              <p>1 Month 3 Days | Rizki Rahmadani</p>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <div class="d-flex justify-content-start py-1">
+                <img src="asset/icon/html.png" class="social" alt="" />
+              </div>
+              <a href="#" class="btn btn-card">Edit</a>
+              <a href="#" class="btn btn-card">Delete</a>
+            </div>
+          </div>
+          <div class="card" style="width: 18rem">
+            <img src="asset/img/Antony.png" class="image" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">El-</h5>
+              <p>1 Month 3 Days | Rizki Rahmadani</p>
+              <p class="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+              <div class="d-flex justify-content-start py-1">
+                <img src="asset/icon/typescript.png" class="social" alt="" />
+                <img src="asset/icon/react-js.png" class="social" alt="" />
+                <img src="asset/icon/html.png" class="social" alt="" />
+              </div>
+              <a href="#" class="btn btn-card">Edit</a>
+              <a href="#" class="btn btn-card">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Konten Bawah -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
