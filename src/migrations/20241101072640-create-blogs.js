@@ -9,22 +9,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         type: Sequelize.STRING
       },
-      start_date: {
+      startDate: {
         type: Sequelize.DATE
       },
-      end_date: {
+      endDate: {
         type: Sequelize.DATE
       },
-      description: {
+      content: {
         type: Sequelize.STRING
       },
       technologies: {
         type: Sequelize.STRING
       },
-      imgae: {
+      image: {
         type: Sequelize.STRING
       },
       createdAt: {

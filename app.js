@@ -1,154 +1,199 @@
+// Import required modules
 const express = require("express");
 const app = express();
 const port = 3000;
 const path = require("path");
 const hbs = require("hbs");
 
-// Custom Helper
-hbs.registerHelper("calculateDuration", (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const durationInDays = (end - start) / (1000 * 60 * 60 * 24);
+// Import helper functions
+require("./src/libs/hbs-helper");
+const { getTechImages, processTechnologies } = require("./src/libs/blogHelper");
 
-    if (durationInDays > 30) {
-        const months = Math.floor(durationInDays / 30);
-        const days = Math.floor(durationInDays % 30);
-        return `${months} bulan ${days} hari`;
-    } else {
-        return `${durationInDays} hari`;
-    }
-});
+const config = require("./src/config/config.json");
+const { Sequelize, QueryTypes } = require("sequelize");
+const sequelize = new Sequelize(config.development);
 
+// Set view engine and middleware
 app.set("view engine", "hbs");
-
-app.use("/asset", express.static(path.join(__dirname, "./asset")));
-app.use("/views", express.static("views"));
-
+app.set("views", path.join(__dirname, "./src/views"));
+app.use("/asset", express.static(path.join(__dirname, "./src/asset")));
 app.use(express.urlencoded({ extended: true }));
 
-// Routing
+// Define routes for main pages
 app.get("/", home);
 app.get("/contact", contact);
 app.get("/testimonial", testimonial);
 
-// BLOG
+// Define routes for blog functionality
 app.get("/blog", blog);
 app.post("/blog", blogPost);
-app.post("/delete-blog/:index", blogDelete);
-app.get("/edit-blog/:index", blogEdit);
-app.post("/edit-blog/:index", editBlogPost);
+app.get("/edit-blog/:id", blogEdit);
+app.post("/edit-blog/:id", editBlogPost);
+app.post("/delete-blog/:id", blogDelete);
+app.get("/blog-detail/:id", blogDetail);
 
-app.get("/blog-detail/:i", blogDetail);
+// Array to store blog posts
 const blogs = [];
 
+// Route handlers for main pages
 function home(req, res) {
-    res.render("index");
+  res.render("index");
 }
 
 function contact(req, res) {
-    res.render("contact");
+  res.render("contact");
 }
 
 function testimonial(req, res) {
-    res.render("testimonial");
+  res.render("testimonial");
 }
 
-function blogDetail(req, res) {
-    const { index } = req.params;
+// Route handler untuk menampilkan semua blog
+// Mengambil semua blog dari database dan menambahkan author & techImages
+async function blog(req, res) {
+  // Query untuk mengambil semua blog
+  const query = `SELECT * FROM blogs`;
+  let blogs = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-    res.render("blog-detail", { idx: index });
+  // Tambahkan properti author dan techImages untuk setiap blog
+  blogs = blogs.map((blog) => ({
+    ...blog,
+    // Memotong judul jika lebih dari 20 karakter dan menambahkan "..."
+    title:
+      blog.title.length > 20 ? blog.title.substring(0, 20) + "..." : blog.title,
+    // Menambahkan nama author secara statis
+    author: "Rizki Rahmadani",
+    // Mengambil gambar teknologi dari fungsi getTechImages berdasarkan technologies yang dipilih
+    techImages: getTechImages(blog.technologies),
+    // Memotong konten jika lebih dari 100 karakter dan menambahkan "..."
+    content:
+      blog.content.length > 100
+        ? blog.content.substring(0, 100) + "..."
+        : blog.content,
+  }));
+
+  // Render halaman blog dengan data yang sudah diproses
+  res.render("blog", { blogs });
 }
 
-function blog(req, res) {
-    res.render("blog", { blogs });
+// Route handler untuk membuat blog baru
+// Menerima data dari form dan menyimpan ke database
+async function blogPost(req, res) {
+  // Ambil data dari form yang disubmit
+  const { title, startDate, endDate, content, technologies } = req.body;
+
+  // Proses technologies dari form menjadi string yang sesuai
+  const techArray = processTechnologies(technologies);
+
+  // Query untuk insert blog baru ke database
+  const query = `
+      INSERT INTO "blogs" (
+        "title", 
+        "startDate",   
+        "endDate",    
+        "content", 
+        "technologies", 
+        "imgae"
+      ) VALUES (
+        '${title}',
+        '${startDate}',
+        '${endDate}',
+        '${content}',
+        '${techArray.join(",")}',
+        'https://weallfollowunited.com/wp-content/uploads/2021/05/ManUtd-2933623-11587130134587_medium.jpg'
+      )`;
+
+  // Eksekusi query insert
+  await sequelize.query(query, { type: QueryTypes.INSERT });
+
+  // Redirect ke halaman blog setelah insert berhasil
+  res.redirect("/blog");
 }
 
-function blogPost(req, res) {
-    const { title, startDate, endDate, content, technologies } = req.body;
+// Route handler untuk menampilkan detail blog berdasarkan ID
+// Mengambil blog spesifik dan menambahkan author & techImages
+async function blogDetail(req, res) {
+  // Ambil ID dari parameter URL
+  const { id } = req.params;
 
-    // Pastikan technologies adalah array, jika tidak ada yang dipilih, buat array kosong
-    const techArray = Array.isArray(technologies) ?
-        technologies :
-        technologies ?
-        [technologies] :
-        [];
+  // Query untuk mengambil blog berdasarkan ID
+  const query = `SELECT * FROM "blogs" WHERE "id" = ${id}`;
+  let blog = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-    const techImages = techArray.map((tech) => {
-        if (tech === "Node JS") {
-            return "nodejs.png";
-        } else if (tech === "React JS") {
-            return "reactjs.png";
-        } else if (tech === "Typescript") {
-            return "typescript.png";
-        } else if (tech === "HTML") {
-            return "html.png";
-        } else {
-            return "";
-        }
-    });
+  // Tambahkan properti author dan techImages ke blog
+  blog = blog.map((item) => ({
+    ...item,
+    author: "Rizki Rahmadani",
+    techImages: getTechImages(item.technologies),
+  }));
 
-    blogs.unshift({
-        title,
-        duration: hbs.handlebars.helpers.calculateDuration(startDate, endDate),
-        content,
-        author: "Rizki Rahmadani",
-        techImages,
-        technologies: techArray, // menyimpan nama teknologi yang dipilih
-    });
-
-    res.redirect("/blog");
+  // Render halaman detail dengan data blog
+  res.render("blog-detail", { blog: blog[0] });
 }
 
-function blogDelete(req, res) {
-    const { index } = req.params;
-    blogs.splice(index, 1);
-    res.redirect("/blog");
+// Route handler untuk menampilkan form edit blog
+// Mengambil data blog yang akan diedit dan memproses technologies untuk checkbox
+async function blogEdit(req, res) {
+  // Ambil ID dari parameter URL
+  const { id } = req.params;
+
+  // Query untuk mengambil blog yang akan diedit
+  const query = `SELECT * FROM "blogs" WHERE "id" = ${id}`;
+  const blog = await sequelize.query(query, { type: QueryTypes.SELECT });
+
+  // Tambahkan data yang diperlukan untuk form edit
+  blog[0].author = "Rizki Rahmadani";
+  // Konversi string technologies menjadi array untuk checkbox
+  blog[0].technologiesArray = blog[0].technologies
+    ? blog[0].technologies.split(",")
+    : [];
+  // Tambahkan array gambar teknologi
+  blog[0].techImages = getTechImages(blog[0].technologies);
+
+  // Render form edit dengan data blog
+  res.render("edit-blog", { blog: blog[0] });
 }
 
-function blogEdit(req, res) {
-    const { index } = req.params;
+// Route handler untuk memproses update blog
+// Menerima data dari form edit dan mengupdate database
+async function editBlogPost(req, res) {
+  // Ambil ID dari parameter URL
+  const { id } = req.params;
+  // Ambil data dari form yang disubmit
+  const { title, startDate, endDate, content, technologies } = req.body;
 
-    const blog = blogs.find((_, idx) => idx == index);
+  // Proses technologies dari form menjadi string yang sesuai
+  const techArray = processTechnologies(technologies);
 
-    res.render("edit-blog", { blog, index });
+  // Query untuk update data blog di database
+  const query = `
+      UPDATE "blogs" 
+      SET 
+        "title" = '${title}', 
+        "startDate" = '${startDate}', 
+        "endDate" = '${endDate}', 
+        "content" = '${content}', 
+        "technologies" = '${techArray.join(",")}'
+      WHERE "id" = ${id}`;
+
+  // Eksekusi query update
+  await sequelize.query(query, { type: QueryTypes.UPDATE });
+
+  // Redirect ke halaman blog setelah update berhasil
+  res.redirect("/blog");
 }
 
-function editBlogPost(req, res) {
-    const { index } = req.params;
+// Route handler for deleting blog post
+async function blogDelete(req, res) {
+  const { id } = req.params;
 
-    const { title, startDate, endDate, content, technologies } = req.body;
+  const query = `DELETE FROM blogs WHERE id=${id}`;
+  await sequelize.query(query, { type: QueryTypes.DELETE });
 
-    // Pastikan technologies adalah array, jika tidak ada yang dipilih, buat array kosong
-    const techArray = Array.isArray(technologies) ?
-        technologies :
-        technologies ?
-        [technologies] :
-        [];
-
-    const techImages = techArray.map((tech) => {
-        if (tech === "Node JS") {
-            return "nodejs.png";
-        } else if (tech === "React JS") {
-            return "reactjs.png";
-        } else if (tech === "Typescript") {
-            return "typescript.png";
-        } else if (tech === "HTML") {
-            return "html.png";
-        } else {
-            return "";
-        }
-    });
-    blogs[index] = {
-        title,
-        duration: hbs.handlebars.helpers.calculateDuration(startDate, endDate),
-        content,
-        author: "Rizki Rahmadani",
-        techImages,
-        technologies: techArray, // menyimpan nama teknologi yang dipilih
-    };
-
-    res.redirect("/blog");
+  res.redirect("/blog");
 }
+
+// Start server
 app.listen(port, () => {
-    console.log(`Server app listening on port ${port}`);
+  console.log(`Server app listening on port ${port}`);
 });

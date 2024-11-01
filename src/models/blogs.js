@@ -14,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   blogs.init({
-    name: DataTypes.STRING,
-    start_date: DataTypes.DATE,
-    end_date: DataTypes.DATE,
-    description: DataTypes.STRING,
+    title: DataTypes.STRING,
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
+    content: DataTypes.STRING,
     technologies: DataTypes.STRING,
-    imgae: DataTypes.STRING
+    image: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'blogs',
