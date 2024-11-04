@@ -71,8 +71,9 @@
                         <a class="nav-link active" href="/blog">Blog</a>
                     </li>
                 </ul>
+                    <a href="/register" class="btn">Register</a>
+                    <a href="/login" class="btn"><strong>Login</strong></a>
                 <a href="/contact" class="btn btn-contact">Contact</a>
-                <a href="/login" class="btn btn-login">Login</a>
                 </form>
             </div>
         </div>
@@ -81,36 +82,26 @@
     <!-- Membuat Konten Submit Article -->
     <div class="container-fluid">
         <div class="container-sm d-flex justify-content-center align-items-center py-5">
-            <form class="rounded shadow p-3 mb-5" style="background-color: rgba(255, 255, 255, 0.4)">
-                <h1 class="text-center">GET IN TOUCH</h1>
-                <div class="mb-3">
-                    <label for="inputName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="inputName">
+            
+            <form action="/login" method="post" class="rounded shadow p-3 mb-5" style="background-color: rgba(255, 255, 255, 0.4)">
+                <h1 class="text-center">LOGIN</h1>
+                {{#if messages.error}}
+                <div class="alert alert-danger" role="alert">
+                    {{messages.error}}
                 </div>
+                {{/if}}
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail">
+                    <input type="email" class="form-control" id="inputEmail" name="email">
                 </div>
                 <div class="mb-3">
-                    <label for="inputPhone" class="form-label">Phone Number</label>
-                    <input type="number" class="form-control" id="inputPhone">
-                </div>
-                <div class="mb-3">
-                    <label>Subject</label>
-                    <select class="form-select">
-                      <option selected>Open this select subject</option>
-                      <option value="1">Fullstack Developer</option>
-                      <option value="2">Frontend Developer</option>
-                      <option value="3">Backend Developer</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="floatingTextarea">Your Message</label>
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="inputPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" name="password">
                 </div>
                 <br>
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end flex-column align-items-center">
                     <button type="submit" class="btn btn-contact">Submit</button>
+                    <p>Don't have an account? <a href="/register">Register</a></p>
                 </div>
             </form>
         </div>

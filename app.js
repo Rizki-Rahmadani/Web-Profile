@@ -11,7 +11,12 @@ const { getTechImages, processTechnologies } = require("./src/libs/blogHelper");
 
 const config = require("./src/config/config.json");
 const { Sequelize, QueryTypes } = require("sequelize");
+const { register } = require("module");
+const { types } = require("util");
 const sequelize = new Sequelize(config.development);
+const bcrypt = require("bcrypt");
+const session = require("express-session");
+const flash = require("express-flash");
 
 // Set view engine and middleware
 app.set("view engine", "hbs");
@@ -19,10 +24,30 @@ app.set("views", path.join(__dirname, "./src/views"));
 app.use("/asset", express.static(path.join(__dirname, "./src/asset")));
 app.use(express.urlencoded({ extended: true }));
 
+app.use(
+  session({
+    name: "my-session",
+    secret: "rahasiabangetdehjangansampaiadayangtahu",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24, // 1 hari
+    },
+  })
+);
+
+app.use(flash());
+
 // Define routes for main pages
 app.get("/", home);
 app.get("/contact", contact);
 app.get("/testimonial", testimonial);
+app.get("/login", loginPage);
+app.post("/login", loginPost);
+app.get("/register", registerPage);
+app.post("/register", registerPost);
+app.post("/logout", logout);
 
 // Define routes for blog functionality
 app.get("/blog", blog);
@@ -32,12 +57,11 @@ app.post("/edit-blog/:id", editBlogPost);
 app.post("/delete-blog/:id", blogDelete);
 app.get("/blog-detail/:id", blogDetail);
 
-// Array to store blog posts
-const blogs = [];
-
 // Route handlers for main pages
 function home(req, res) {
-  res.render("index");
+  const user = req.session.user;
+  console.log(user);
+  res.render("index", { user });
 }
 
 function contact(req, res) {
@@ -46,6 +70,57 @@ function contact(req, res) {
 
 function testimonial(req, res) {
   res.render("testimonial");
+}
+
+function registerPage(req, res) {
+  res.render("register");
+}
+
+async function registerPost(req, res) {
+  const { name, email, password } = req.body;
+  const salt = 10;
+  const hashPassword = await bcrypt.hash(password, salt);
+
+  const query = `INSERT INTO Users(name,email,password) VALUES('${name}','${email}','${hashPassword}') `;
+  await sequelize.query(query, { type: QueryTypes.INSERT });
+
+  res.redirect("login");
+}
+
+function loginPage(req, res) {
+  res.render("login");
+}
+
+async function loginPost(req, res) {
+  const { email, password } = req.body;
+
+  // Verifikasi Email
+  const query = `SELECT * FROM users WHERE email='${email}'`;
+  const user = await sequelize.query(query, { type: QueryTypes.SELECT });
+
+  if (!user.length) {
+    req.flash("error", "Email / Password Salah");
+    return res.redirect("/login");
+  }
+
+  // Verifikasi Password
+  const isPasswrodMatch = await bcrypt.compare(password, user[0].password);
+  if (!isPasswrodMatch) {
+    req.flash("error", "Email / Password Salah");
+    return res.redirect("/login");
+  }
+
+  req.flash("success", "Login Berhasil");
+  req.session.user = user[0];
+  res.redirect("/");
+}
+
+function logout(req, res) {
+  req.session.destroy((err) => {
+    if (err) return console.log("Logout Gagal");
+    console.log("Logout Berhasil");
+    res.redirect("/");
+  });
 }
 
 // Route handler untuk menampilkan semua blog
