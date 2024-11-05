@@ -10,11 +10,13 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/asset/css/blog.css" />
+    <link rel="stylesheet" href="/asset/css/logout.css" />
+    <link rel="stylesheet" href="/asset/css/style.css" />
   </head>
 
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary px-5">
+    <nav class="navbar navbar-expand-lg nav px-5">
       <div class="container-fluid">
         <img src="/asset/img/dumbways.png" style="height: 60px" />
         <button
@@ -37,9 +39,27 @@
               <a class="nav-link active" href="/blog">Blog</a>
             </li>
           </ul>
+          <div class="swap">
+            {{#if user}}
+                <div class="dropdown">
+                    <div class="welcome-text">Welcome, {{user.name}} ▼</div>
+                    <div class="dropdown-content">
+                        <form action="/logout" method="POST">
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            {{else}}
+                <div class="item-collapse">
+                    <a href="/register" class="nav-link">Register</a>
+                </div>
+                <div class="item-collapse">
+                    <a href="/login" class="nav-link">Login</a>
+                </div>
+            {{/if}}
           <a href="/contact" class="btn btn-contact">Contact</a>
-          <a href="/login" class="btn btn-login">Login</a>
         </div>
+      </div>
       </div>
     </nav>
     <!-- Navbar -->
@@ -49,7 +69,7 @@
         class="container-sm d-flex justify-content-center align-items-center py-5"
       >
         <form
-          method="post" action="/edit-blog/{{blog.id}}"
+          method="post" action="/edit-blog/{{blog.id}}" enctype="multipart/form-data"
           class="container-form rounded shadow p-3 mb-5 bg-body-tertiary"
         >
           <h1 class="text-center">Edit Project</h1>
@@ -155,7 +175,7 @@
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">Upload Image</label>
-            <input class="form-control" type="file" id="formFile" />
+            <input class="form-control" type="file" id="formFile" name="image" />
           </div>
           <br />
           <div class="d-flex justify-content-end">

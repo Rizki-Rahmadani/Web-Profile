@@ -9,13 +9,17 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+
     <link rel="stylesheet" href="/asset/css/blog.css" />
+    <link rel="stylesheet" href="/asset/css/logout.css" />
+    <link rel="stylesheet" href="/asset/css/blog-detail.css" />
+    <link rel="stylesheet" href="/asset/css/style.css" />
   </head>
 
   <body>
     <!-- Navbar -->
     <nav
-      class="navbar navbar-expand-lg px-5"
+      class="navbar navbar-expand-lg nav px-5"
       style="background-color: rgba(255, 255, 255, 0.781)">
       <div class="container-fluid">
         <img src="/asset/img/dumbways.png" style="height: 60px" />
@@ -39,8 +43,27 @@
               <a class="nav-link active" href="/blog">Blog</a>
             </li>
           </ul>
-          <a href="/contact" class="btn btn-contact">Contact</a>
-          <a href="/login" class="btn btn-login">Login</a>
+          <div class="swap">
+            {{#if user}}
+              <div class="dropdown">
+                <div class="welcome-text">Welcome, {{user.name}} ▼</div>
+                <div class="dropdown-content">
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </div>
+            </div>
+            {{else}}
+                <div class="item-collapse">
+                    <a href="/register" class="nav-link">Register</a>
+                </div>
+                <div class="item-collapse">
+                    <a href="/login" class="nav-link">Login</a>
+                  </div>
+                {{/if}}
+
+            <a href="/contact" class="btn btn-contact">Contact</a>
+          </div>
         </div>
       </div>
     </nav>
@@ -49,9 +72,10 @@
 
     <div class="container mt-5 py-5" >
       <div class="row mb-4">
+        <h1 class="mb-5 text-center">My Project</h1>
         <!-- Foto sebelah kiri -->
         <div class="col-md-8">
-          <img src="{{blog.imgae}}" alt="Project Image" class="img-fluid rounded">
+          <img src="/{{blog.imgae}}" alt="Project Image" class="img-fluid rounded">
         </div>
 
         <!-- Info sebelah kanan -->
@@ -59,15 +83,36 @@
           
           <div class="mb-3">
             <p class="mb-1" style="color: #ffffff;">Duration:</p>
-            <p style="color: #ffffff  ;">{{calculateDuration blog.startDate blog.endDate}}</p>
+            <ul>
+              <li class="d-flex align-items-center gap-2">
+                <img src="/asset/icon/calendar.png" style="width: 20px;">
+                <p>{{blog.startDate}} - {{blog.endDate}}</p>
+              </li>
+              <li class="d-flex align-items-center gap-2">
+                <img src="/asset/icon/clock.png" style="width: 20px;">
+                <p>{{calculateDuration blog.startDate blog.endDate}}</p>
+              </li>
+            </ul>
           </div>
 
           <div class="mb-3">
-            <p class="mb-1" style="color: #ffffff;">Technologies:</p>
-            <div class="d-flex gap-2">
+            <p class="mb-1">Technologies:</p>
+            <div class="d-flex justify-content-start flex-wrap gap-2">
               {{#each blog.techImages}}
                 {{#if this}}
-                  <img src="/asset/icon/{{this}}" alt="Tech Icon" style="width: 30px;">
+                  <div style="padding: 10px; display: flex; align-items: center; gap: 10px;">
+                    <img src="/asset/icon/{{this}}" alt="Tech Icon" style="width: 30px;">
+                    {{#if (eq this "nodejs.png")}}
+                      <p>Node JS</p>
+                    {{else if (eq this "reactjs.png")}}
+                      <p>React JS</p>
+                    {{else if (eq this "typescript.png")}}
+                      <p>Typescript</p>
+                    {{else if (eq this "html.png")}}
+                      <p>HTML</p>
+
+                    {{/if}}
+                  </div>
                 {{/if}}
               {{/each}}
             </div>
@@ -89,31 +134,7 @@
       </div>
     </div>
 
-    <style>
-      .container {
-        padding: 0 80px;
-      }
-
-      img.img-fluid {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-      }
-
-      h2 {
-        font-weight: bold;
-        color: #111727;
-      }
-
-      strong {
-        color: #111727;
-      }
-
-      p {
-        color: #4F4F4F;
-        margin-bottom: 0;
-      }
-    </style>
+    
 
     {{! Konten Project Selesai }}
 

@@ -10,11 +10,13 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/asset/css/blog.css" />
+    <link rel="stylesheet" href="/asset/css/logout.css" />
+    <link rel="stylesheet" href="/asset/css/style.css" />
   </head>
   <body>
     <!-- Navbar -->
     <nav
-      class="navbar navbar-expand-lg px-5"
+      class="navbar navbar-expand-lg nav px-5"
       style="background-color: rgba(255, 255, 255, 0.781)"
     >
       <div class="container-fluid">
@@ -33,146 +35,167 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="/">Home</a>
+              <a class="nav-link deactive" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/blog">Blog</a>
             </li>
           </ul>
-          {{#if user}}
-            <h7>Welcome, {{user.name}}</h7>
-            <form action="/logout" method="post">
-              <button type="submit" class="btn">Logout</button>
-            </form>
-          {{else}}
-            <a href="/register" class="btn">Register</a>
-            <a href="/login" class="btn">Login</a>
-          {{/if}}
-          <a href="/contact" class="btn btn-contact">Contact</a>
+          <div class="swap">
+            {{#if user}}
+              <div class="dropdown">
+                <div class="welcome-text">Welcome, {{user.name}} ▼</div>
+                <div class="dropdown-content">
+                  <form action="/logout" method="POST">
+                    <button type="submit" class="logout-btn">Logout</button>
+                  </form>
+                </div>
+              </div>
+            {{else}}
+              <div class="item-collapse">
+                <a href="/register" class="nav-link deactive">Register</a>
+              </div>
+              <div class="item-collapse">
+                <a href="/login" class="nav-link deactive">Login</a>
+              </div>
+            {{/if}}
+            <a href="/contact" class="btn btn-contact">Contact</a>
+          </div>
         </div>
       </div>
     </nav>
     <!-- Navbar -->
     <!-- Membuat Konten Submit Article -->
-    <div class="container-fluid">
-      <div
-        class="container-sm d-flex justify-content-center align-items-center py-5"
-      >
-        <form
-          method="post"
-          action="/blog"
-          class="container-form rounded shadow p-3 mb-5"
-          style="gap: 10px; background-color: rgba(255, 255, 255, 0.4)"
+    {{#if user}}
+      <div class="container-fluid">
+        <div
+          class="container-sm d-flex justify-content-center align-items-center py-5"
         >
-          <h1 class="text-center">Create Project</h1>
-          <div class="mb-3">
-            <label for="inputName" class="form-label">Project Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="inputName"
-              name="title"
-            />
-          </div>
-          <div class="d-flex justify-content-between">
+          <form
+            method="post"
+            action="/blog"
+            enctype="multipart/form-data"
+            class="container-form rounded shadow p-3 mb-5"
+            style="gap: 10px; background-color: rgba(255, 255, 255, 0.4)"
+          >
+            <h1 class="text-center">Create Project</h1>
             <div class="mb-3">
-              <label for="inputStartDate" class="form-label">Start Date</label>
+              <label for="inputName" class="form-label">Project Name</label>
               <input
-                type="date"
+                type="text"
                 class="form-control"
-                id="startDate"
-                name="startDate"
+                id="inputName"
+                name="title"
               />
             </div>
-            <div class="mb-3">
-              <label for="inputEndDate" class="form-label">End Date</label>
-              <input
-                type="date"
-                class="form-control"
-                id="endDate"
-                name="endDate"
-              />
+            <div class="d-flex justify-content-between">
+              <div class="mb-3">
+                <label for="inputStartDate" class="form-label">Start Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="startDate"
+                  name="startDate"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="inputEndDate" class="form-label">End Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="endDate"
+                  name="endDate"
+                />
+              </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="floatingTextarea" class="form-label">Description</label>
-            <textarea
-              class="form-control"
-              placeholder="Leave a comment here"
-              id="floatingTextarea"
-              name="content"
-            ></textarea>
-          </div>
-          <div>
+            <div class="mb-3">
+              <label
+                for="floatingTextarea"
+                class="form-label"
+              >Description</label>
+              <textarea
+                class="form-control"
+                placeholder="Leave a comment here"
+                id="floatingTextarea"
+                name="content"
+              ></textarea>
+            </div>
             <div>
-              <label for="inputFilter" class="form-label">Technology :</label>
-            </div>
-            <div class="mb-3 d-flex justify-content-start gap">
               <div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Node JS"
-                    id="nodeJsCheck"
-                    name="technologies"
-                  />
-                  <label class="form-check-label" for="nodeJsCheck">
-                    Node JS
-                  </label>
+                <label for="inputFilter" class="form-label">Technology :</label>
+              </div>
+              <div class="mb-3 d-flex justify-content-start gap">
+                <div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Node JS"
+                      id="nodeJsCheck"
+                      name="technologies"
+                    />
+                    <label class="form-check-label" for="nodeJsCheck">
+                      Node JS
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="React JS"
+                      id="reactJsCheck"
+                      name="technologies"
+                    />
+                    <label class="form-check-label" for="reactJsCheck">
+                      React JS
+                    </label>
+                  </div>
                 </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="React JS"
-                    id="reactJsCheck"
-                    name="technologies"
-                  />
-                  <label class="form-check-label" for="reactJsCheck">
-                    React JS
-                  </label>
+                <div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="Typescript"
+                      id="typescriptCheck"
+                      name="technologies"
+                    />
+                    <label class="form-check-label" for="typescriptCheck">
+                      Typescript
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="HTML"
+                      id="htmlCheck"
+                      name="technologies"
+                    />
+                    <label class="form-check-label" for="htmlCheck">
+                      HTML
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Typescript"
-                    id="typescriptCheck"
-                    name="technologies"
-                  />
-                  <label class="form-check-label" for="typescriptCheck">
-                    Typescript
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="HTML"
-                    id="htmlCheck"
-                    name="technologies"
-                  />
-                  <label class="form-check-label" for="htmlCheck">
-                    HTML
-                  </label>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="formFile" class="form-label">Upload Image</label>
-            <input class="form-control" type="file" id="formFile" />
-          </div>
-          <br />
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-contact">Submit</button>
-          </div>
-        </form>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Upload Image</label>
+              <input
+                class="form-control"
+                type="file"
+                id="formFile"
+                name="image"
+              />
+            </div>
+            <br />
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-contact">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    {{/if}}
     <!-- Konten Blog Selesai -->
     {{! Konten Project }}
 
@@ -210,20 +233,22 @@
                     />
                   {{/each}}
                 </div>
-                <div class="d-flex justify-content-start gap">
-                  <div>
-                    <a href="/edit-blog/{{id}}" class="btn btn-card">Edit</a>
+                {{#if isOwner}}
+                  <div class="d-flex justify-content-start gap">
+                    <div>
+                      <a href="/edit-blog/{{id}}" class="btn btn-card">Edit</a>
+                    </div>
+                    <div>
+                      <form method="post" action="/delete-blog/{{id}}">
+                        <button
+                          type="submit"
+                          onclick="alert('Project berhasil dihapus')"
+                          class="btn btn-card"
+                        >Delete</button>
+                      </form>
+                    </div>
                   </div>
-                  <div>
-                    <form method="post" action="/delete-blog/{{id}}">
-                      <button
-                        type="submit"
-                        onclick="alert('Project berhasil dihapus')"
-                        class="btn btn-card"
-                      >Delete</button>
-                    </form>
-                  </div>
-                </div>
+                {{/if}}
               </div>
             </div>
           </div>

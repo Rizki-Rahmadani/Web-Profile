@@ -11,17 +11,18 @@ const { getTechImages, processTechnologies } = require("./src/libs/blogHelper");
 
 const config = require("./src/config/config.json");
 const { Sequelize, QueryTypes } = require("sequelize");
-const { register } = require("module");
-const { types } = require("util");
 const sequelize = new Sequelize(config.development);
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("express-flash");
+const upload = require("./src/middleware/upload-file");
+const { isLogin, checkBlogOwner } = require("./src/middleware/login");
 
 // Set view engine and middleware
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "./src/views"));
 app.use("/asset", express.static(path.join(__dirname, "./src/asset")));
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -51,42 +52,18 @@ app.post("/logout", logout);
 
 // Define routes for blog functionality
 app.get("/blog", blog);
-app.post("/blog", blogPost);
-app.get("/edit-blog/:id", blogEdit);
-app.post("/edit-blog/:id", editBlogPost);
-app.post("/delete-blog/:id", blogDelete);
+app.post("/blog", upload.single("image"), blogPost);
+app.get("/edit-blog/:id", isLogin, checkBlogOwner, blogEdit);
+app.post(
+  "/edit-blog/:id",
+  upload.single("image"),
+  checkBlogOwner,
+  editBlogPost
+);
+app.post("/delete-blog/:id", checkBlogOwner, blogDelete);
 app.get("/blog-detail/:id", blogDetail);
 
 // Route handlers for main pages
-function home(req, res) {
-  const user = req.session.user;
-  console.log(user);
-  res.render("index", { user });
-}
-
-function contact(req, res) {
-  res.render("contact");
-}
-
-function testimonial(req, res) {
-  res.render("testimonial");
-}
-
-function registerPage(req, res) {
-  res.render("register");
-}
-
-async function registerPost(req, res) {
-  const { name, email, password } = req.body;
-  const salt = 10;
-  const hashPassword = await bcrypt.hash(password, salt);
-
-  const query = `INSERT INTO Users(name,email,password) VALUES('${name}','${email}','${hashPassword}') `;
-  await sequelize.query(query, { type: QueryTypes.INSERT });
-
-  res.redirect("login");
-}
-
 function loginPage(req, res) {
   res.render("login");
 }
@@ -115,6 +92,21 @@ async function loginPost(req, res) {
   res.redirect("/");
 }
 
+function registerPage(req, res) {
+  res.render("register");
+}
+
+async function registerPost(req, res) {
+  const { name, email, password } = req.body;
+  const salt = 10;
+  const hashPassword = await bcrypt.hash(password, salt);
+
+  const query = `INSERT INTO Users(name,email,password) VALUES('${name}','${email}','${hashPassword}') `;
+  await sequelize.query(query, { type: QueryTypes.INSERT });
+
+  res.redirect("login");
+}
+
 function logout(req, res) {
   req.session.destroy((err) => {
     if (err) return console.log("Logout Gagal");
@@ -123,21 +115,71 @@ function logout(req, res) {
   });
 }
 
-// Route handler untuk menampilkan semua blog
-// Mengambil semua blog dari database dan menambahkan author & techImages
-async function blog(req, res) {
-  // Query untuk mengambil semua blog
-  const query = `SELECT * FROM blogs`;
+async function home(req, res) {
+  // Query untuk mengambil semua blog dan nama author
+  const query = `SELECT blogs.*, users.name AS author FROM blogs JOIN users ON blogs.author_id = users.id`;
+
   let blogs = await sequelize.query(query, { type: QueryTypes.SELECT });
+
+  const user = req.session.user;
 
   // Tambahkan properti author dan techImages untuk setiap blog
   blogs = blogs.map((blog) => ({
     ...blog,
+
+    // Menambahkan properti isOwner untuk mengecek apakah user yang login adalah pemilik blog
+    // Jika user login (user ada) dan id user sama dengan author_id blog, maka isOwner = true
+    // Jika tidak ada user login atau id tidak sama, maka isOwner = false
+    isOwner: user ? user.id === blog.author_id : false,
     // Memotong judul jika lebih dari 20 karakter dan menambahkan "..."
     title:
       blog.title.length > 20 ? blog.title.substring(0, 20) + "..." : blog.title,
     // Menambahkan nama author secara statis
-    author: "Rizki Rahmadani",
+    // author: "Rizki Rahmadani",
+    // Mengambil gambar teknologi dari fungsi getTechImages berdasarkan technologies yang dipilih
+    techImages: getTechImages(blog.technologies),
+    // Memotong konten jika lebih dari 100 karakter dan menambahkan "..."
+    content:
+      blog.content.length > 100
+        ? blog.content.substring(0, 100) + "..."
+        : blog.content,
+  }));
+
+  res.render("index", { blogs, user });
+}
+
+function contact(req, res) {
+  const user = req.session.user;
+  res.render("contact", { user });
+}
+
+function testimonial(req, res) {
+  res.render("testimonial");
+}
+
+// Route handler untuk menampilkan semua blog
+// Mengambil semua blog dari database dan menambahkan author & techImages
+async function blog(req, res) {
+  // Query untuk mengambil semua blog dan nama author
+  const query = `SELECT blogs.*, users.name AS author FROM blogs JOIN users ON blogs.author_id = users.id`;
+
+  let blogs = await sequelize.query(query, { type: QueryTypes.SELECT });
+
+  const user = req.session.user;
+
+  // Tambahkan properti author dan techImages untuk setiap blog
+  blogs = blogs.map((blog) => ({
+    ...blog,
+
+    // Menambahkan properti isOwner untuk mengecek apakah user yang login adalah pemilik blog
+    // Jika user login (user ada) dan id user sama dengan author_id blog, maka isOwner = true
+    // Jika tidak ada user login atau id tidak sama, maka isOwner = false
+    isOwner: user ? user.id === blog.author_id : false,
+    // Memotong judul jika lebih dari 20 karakter dan menambahkan "..."
+    title:
+      blog.title.length > 20 ? blog.title.substring(0, 20) + "..." : blog.title,
+    // Menambahkan nama author secara statis
+    // author: "Rizki Rahmadani",
     // Mengambil gambar teknologi dari fungsi getTechImages berdasarkan technologies yang dipilih
     techImages: getTechImages(blog.technologies),
     // Memotong konten jika lebih dari 100 karakter dan menambahkan "..."
@@ -148,7 +190,7 @@ async function blog(req, res) {
   }));
 
   // Render halaman blog dengan data yang sudah diproses
-  res.render("blog", { blogs });
+  res.render("blog", { blogs, user });
 }
 
 // Route handler untuk membuat blog baru
@@ -156,6 +198,17 @@ async function blog(req, res) {
 async function blogPost(req, res) {
   // Ambil data dari form yang disubmit
   const { title, startDate, endDate, content, technologies } = req.body;
+
+  // Ambil ID user dari session yang sedang login
+  // untuk digunakan sebagai author_id pada blog
+  // Mengambil id user dari session yang sedang login
+  // Menggunakan destructuring untuk mengambil properti id dari req.session.user
+  // id ini akan digunakan sebagai author_id saat membuat blog baru
+  const { id } = req.session.user;
+
+  // Ambil path file gambar yang diupload
+  // req.file berisi informasi file yang diupload via multer
+  const imagePath = req.file.path;
 
   // Proses technologies dari form menjadi string yang sesuai
   const techArray = processTechnologies(technologies);
@@ -168,14 +221,16 @@ async function blogPost(req, res) {
         "endDate",    
         "content", 
         "technologies", 
-        "imgae"
+        "imgae",
+        "author_id"
       ) VALUES (
         '${title}',
         '${startDate}',
         '${endDate}',
         '${content}',
         '${techArray.join(",")}',
-        'https://weallfollowunited.com/wp-content/uploads/2021/05/ManUtd-2933623-11587130134587_medium.jpg'
+        '${imagePath}',
+        ${id}
       )`;
 
   // Eksekusi query insert
@@ -191,14 +246,16 @@ async function blogDetail(req, res) {
   // Ambil ID dari parameter URL
   const { id } = req.params;
 
-  // Query untuk mengambil blog berdasarkan ID
-  const query = `SELECT * FROM "blogs" WHERE "id" = ${id}`;
+  // Query untuk mengambil blog dan nama author berdasarkan ID
+  const query = `SELECT blogs.*, users.name AS author 
+                  FROM blogs 
+                  JOIN users ON blogs.author_id = users.id 
+                  WHERE blogs.id = ${id}`;
   let blog = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-  // Tambahkan properti author dan techImages ke blog
+  // Tambahkan properti techImages ke blog
   blog = blog.map((item) => ({
     ...item,
-    author: "Rizki Rahmadani",
     techImages: getTechImages(item.technologies),
   }));
 
@@ -237,6 +294,8 @@ async function editBlogPost(req, res) {
   // Ambil data dari form yang disubmit
   const { title, startDate, endDate, content, technologies } = req.body;
 
+  const imagePath = req.file.path;
+
   // Proses technologies dari form menjadi string yang sesuai
   const techArray = processTechnologies(technologies);
 
@@ -248,7 +307,8 @@ async function editBlogPost(req, res) {
         "startDate" = '${startDate}', 
         "endDate" = '${endDate}', 
         "content" = '${content}', 
-        "technologies" = '${techArray.join(",")}'
+        "technologies" = '${techArray.join(",")}',
+        "imgae" = '${imagePath}'
       WHERE "id" = ${id}`;
 
   // Eksekusi query update

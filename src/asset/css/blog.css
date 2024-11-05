@@ -2,15 +2,6 @@
   font-weight: 600;
 }
 
-body {
-  background-image: url("/asset/img/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
 .container-form {
   background-color: white;
   padding: 20px;
@@ -45,7 +36,7 @@ h1 {
 
 .card-project {
   /* background-color: antiquewhite !important; */
-  max-height: 800px;
+  height: 640px;
 }
 
 .card-content {

@@ -1,0 +1,89 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropdown-content form {
+  padding: 5px 5px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #db0d0d;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+}
+
+.logout-btn:hover {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.welcome-text {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.swap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 991px) {
+  .swap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dropdown {
+    order: 2;
+    /* Mengatur urutan elemen */
+    width: 100%;
+  }
+  .btn-contact {
+    order: 1;
+    /* Mengatur urutan elemen */
+    width: 100%;
+  }
+  .dropdown-content {
+    position: relative;
+    width: 10%;
+  }
+  .welcome-text {
+    width: 100%;
+    padding: 8px 0;
+  }
+  .logout-btn {
+    width: 100%;
+  }
+  /* Untuk login/register buttons */
+  .d-flex.flex-row.gap.px-3 {
+    order: 2;
+    width: 100%;
+    padding: 0 !important;
+  }
+  .item-collapse {
+    width: 100%;
+  }
+  .item-collapse .nav-link {
+    padding: 8px 0;
+  }
+}
