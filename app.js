@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const path = require("path");
 const hbs = require("hbs");
+const fs = require("fs");
 
 // Import helper functions
 require("./src/libs/hbs-helper");
@@ -44,6 +45,7 @@ app.use(flash());
 app.get("/", home);
 app.get("/contact", contact);
 app.get("/testimonial", testimonial);
+app.get("/new-testimonial", newTestimonial);
 app.get("/login", loginPage);
 app.post("/login", loginPost);
 app.get("/register", registerPage);
@@ -155,6 +157,10 @@ function contact(req, res) {
 
 function testimonial(req, res) {
   res.render("testimonial");
+}
+
+function newTestimonial(req, res) {
+  res.render("new-testimonial");
 }
 
 // Route handler untuk menampilkan semua blog
@@ -322,6 +328,26 @@ async function editBlogPost(req, res) {
 async function blogDelete(req, res) {
   const { id } = req.params;
 
+  // Ambil data blog untuk mendapatkan path gambar
+  const getBlogQuery = `SELECT imgae FROM blogs WHERE id=${id}`;
+  const blog = await sequelize.query(getBlogQuery, { type: QueryTypes.SELECT });
+
+  if (blog.length > 0) {
+    // Hapus file gambar jika ada
+    const imagePath = blog[0].imgae;
+    if (imagePath) {
+      // Hapus file secara asynchronous
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.log("Error deleting image:", err);
+        } else {
+          console.log("Image deleted successfully");
+        }
+      });
+    }
+  }
+
+  // Hapus data blog dari database
   const query = `DELETE FROM blogs WHERE id=${id}`;
   await sequelize.query(query, { type: QueryTypes.DELETE });
 
