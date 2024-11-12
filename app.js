@@ -69,6 +69,9 @@ app.post(
 app.post("/delete-blog/:id", checkBlogOwner, blogDelete);
 app.get("/blog-detail/:id", blogDetail);
 
+// Define a new route for handling contact form submission
+app.post("/send-contact", sendContact);
+
 // Route handlers for main pages
 function loginPage(req, res) {
   res.render("login");
@@ -140,8 +143,7 @@ async function home(req, res) {
     // Memotong judul jika lebih dari 20 karakter dan menambahkan "..."
     title:
       blog.title.length > 20 ? blog.title.substring(0, 20) + "..." : blog.title,
-    // Menambahkan nama author secara statis
-    // author: "Rizki Rahmadani",
+
     // Mengambil gambar teknologi dari fungsi getTechImages berdasarkan technologies yang dipilih
     techImages: getTechImages(blog.technologies),
     // Memotong konten jika lebih dari 100 karakter dan menambahkan "..."
@@ -156,9 +158,24 @@ async function home(req, res) {
 
 function contact(req, res) {
   const user = req.session.user;
+
   res.render("contact", { user });
 }
 
+// Function to handle sending contact form data via mailto
+function sendContact(req, res) {
+  const { name, email, phone, subject, message } = req.body;
+
+  // Construct mailto link
+  const mailtoLink = `mailto:your-email@example.com?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nSubject: ${subject}\nMessage: ${message}` // Use 'name' here
+  )}`;
+
+  // Redirect to mailto link
+  res.redirect(mailtoLink);
+}
 function testimonial(req, res) {
   res.render("testimonial");
 }
@@ -209,8 +226,6 @@ async function blogPost(req, res) {
   // Ambil data dari form yang disubmit
   const { title, startDate, endDate, content, technologies } = req.body;
 
-  // Ambil ID user dari session yang sedang login
-  // untuk digunakan sebagai author_id pada blog
   // Mengambil id user dari session yang sedang login
   // Menggunakan destructuring untuk mengambil properti id dari req.session.user
   // id ini akan digunakan sebagai author_id saat membuat blog baru
@@ -330,6 +345,7 @@ async function editBlogPost(req, res) {
 
 // Route handler for deleting blog post
 async function blogDelete(req, res) {
+  // This line of code extracts the 'id' parameter from the request object.
   const { id } = req.params;
 
   // Ambil data blog untuk mendapatkan path gambar

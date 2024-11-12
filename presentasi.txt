@@ -1,0 +1,37 @@
+1. Pendahuluan
+Nama Aplikasi: Personal Website
+
+2. Fitur Utama
+Daftar Fitur: Sebutkan fitur-fitur utama yang ada dalam aplikasi, seperti:
+- Autentikasi pengguna (login, registrasi)
+- Manajemen konten (blog, testimonial)
+- Upload gambar
+Demo Fitur: Tunjukkan bagaimana cara menggunakan fitur-fitur tersebut secara langsung.
+
+3. Teknologi yang Digunakan
+Stack Teknologi: Sebutkan teknologi yang digunakan dalam pengembangan aplikasi, seperti:
+- Bahasa pemrograman (JavaScript Node.js) Alasan : (JS) Bahasa Pemrograman Universal, Komunitas Besar & Interaktivitas. (Node JS) Ekosistem NPM
+- Framework (Express.js) Alasan : Penggunaan Middleware dan Routing yang Mudah
+- Database (PostgreSQL) Alasan : Kinerja dan Skalabilitas
+- Alat pengembangan (Git) Alasan : Kontrol Versi (Melacak Perubahan), Branching, Backup dan Pemulihan
+Alasan Pemilihan Teknologi:
+
+4. Pembahasan Code
+*app.js
+- Pengaturan middleware seperti session, flash
+- Definisi rute untuk berbagai halaman dan fungsionalitas aplikasi.
+- Penanganan permintaan dan respons.
+
+*config.js
+- Penggunaan dotenv untuk mengelola variabel lingkungan.
+- Konfigurasi untuk koneksi PostgreSQL dan pengaturan SSL.
+
+*Migrations
+
+*blogHelper.js
+- Fungsi getTechImages dan processTechnologies, serta bagaimana mereka digunakan untuk mengelola data teknologi.
+
+*Middleware/login.js
+- Penjelasan tentang fungsi isLogin dan checkBlogOwner.
+- Bagaimana middleware ini digunakan untuk melindungi rute tertentu.
+
